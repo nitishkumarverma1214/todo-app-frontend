@@ -6,17 +6,39 @@ function TodoList() {
 
   return (
     <ul className="todo-list">
-      {todos.map((todo) => (
-        <li key={todo.id} className="todo-item">
-          <Todo todo={todo} />
-        </li>
-      ))}
+      {todos &&
+        todos.length > 0 &&
+        todos.map((todo) => (
+          <li key={todo.id} className="todo-item">
+            <Todo todo={todo} />
+          </li>
+        ))}
     </ul>
   );
 }
 
 function Todo({ todo }) {
   const dispatch = useDispatch();
+
+  const handleCheckboxToggle = (done, todo) => {
+    fetch("http://localhost:1327/api/v1/todo/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      crossDomain: true,
+      body: JSON.stringify({ done, id: todo.id }),
+    })
+      .then((response) => {
+        dispatch({
+          type: "change",
+          changeTodo: { ...todo, done },
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   return (
     <>
       <input
@@ -24,15 +46,9 @@ function Todo({ todo }) {
         name={`${todo.id}-done`}
         id={`${todo.id}-done`}
         checked={todo.done}
-        onChange={(e) => {
-          dispatch({
-            type: "change",
-            changeTodo: { ...todo, done: e.target.checked },
-          });
-        }}
+        onChange={(e) => handleCheckboxToggle(e.target.checked, todo)}
       />
       {todo.text}
-
       <button onClick={() => dispatch({ type: "delete", removeId: todo.id })}>
         X
       </button>

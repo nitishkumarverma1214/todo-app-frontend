@@ -1,11 +1,15 @@
 export default function todoReducer(todos, action) {
   switch (action.type) {
+    case "create":
+      return action.todoList;
     case "add":
-      const { newTodo } = action;
+      let { newTodo } = action;
+
       return [...todos, newTodo];
 
     case "change":
       const { changeTodo } = action;
+
       return todos.map((todo) => {
         if (todo.id === changeTodo.id) return changeTodo;
         else return todo;
@@ -13,6 +17,21 @@ export default function todoReducer(todos, action) {
 
     case "delete":
       const { removeId } = action;
+      const deleteTodo = async () => {
+        let request = await fetch(
+          "http://localhost:1327/api/v1/todo/" + removeId,
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            crossDomain: true,
+          }
+        );
+        let message = await request.text();
+        console.log(message);
+      };
+      deleteTodo();
       return todos.filter((todo) => todo.id !== removeId);
   }
 }
