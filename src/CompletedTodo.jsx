@@ -7,8 +7,9 @@ function CompletedTodo() {
     ? todos.filter((todo) => todo.done)
     : null;
   return (
-    <div>
+    <div className="completed-todo-list">
       <h1>Completed Todos</h1>
+
       {completedTodos?.length
         ? completedTodos.map((todo) => <p key={todo.id}>{todo.text}</p>)
         : "No Completed Todos"}

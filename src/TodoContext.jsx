@@ -8,7 +8,7 @@ export const TodoContext = createContext(null);
 function TodoProvider({ children }) {
   const [todos, dispatch] = useReducer(todoReducer, []);
   useEffect(() => {
-    fetch("http://localhost:1327/api/v1/todo", {
+    fetch(import.meta.env.VITE_BASE_URL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

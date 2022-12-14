@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useTodos } from "./TodoContext";
-
+import bin from "./assets/bin.svg";
 function TodoList() {
   const todos = useTodos();
 
@@ -21,7 +21,7 @@ function Todo({ todo }) {
   const dispatch = useDispatch();
 
   const handleCheckboxToggle = (done, todo) => {
-    fetch("http://localhost:1327/api/v1/todo/", {
+    fetch(import.meta.env.VITE_BASE_URL, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -48,9 +48,13 @@ function Todo({ todo }) {
         checked={todo.done}
         onChange={(e) => handleCheckboxToggle(e.target.checked, todo)}
       />
-      {todo.text}
-      <button onClick={() => dispatch({ type: "delete", removeId: todo.id })}>
-        X
+      <div className="todo-text">{todo.text}</div>
+
+      <button
+        className="bin-icon"
+        onClick={() => dispatch({ type: "delete", removeId: todo.id })}
+      >
+        <img src={bin} alt="delete" />
       </button>
     </>
   );

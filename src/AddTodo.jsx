@@ -6,7 +6,7 @@ function AddTodo() {
   const [todoText, setTodoText] = useState("");
 
   const handleClick = () => {
-    fetch("http://localhost:1327/api/v1/todo", {
+    fetch(import.meta.env.VITE_BASE_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,8 +25,9 @@ function AddTodo() {
   };
 
   return (
-    <div>
+    <div className="add-todo-bar">
       <input
+        className="new-todo-input"
         type="text"
         value={todoText}
         onChange={(e) => setTodoText(e.target.value)}

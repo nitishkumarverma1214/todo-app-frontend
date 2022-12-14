@@ -19,7 +19,7 @@ export default function todoReducer(todos, action) {
       const { removeId } = action;
       const deleteTodo = async () => {
         let request = await fetch(
-          "http://localhost:1327/api/v1/todo/" + removeId,
+          `${import.meta.env.VITE_BASE_URL}/${removeId}`,
           {
             method: "DELETE",
             headers: {

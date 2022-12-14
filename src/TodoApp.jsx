@@ -8,7 +8,7 @@ function TodoApp() {
   return (
     <div>
       <TodoProvider>
-        <h1>Todo List</h1>
+        <h1 className="heading">Todo List</h1>
         <AddTodo />
         <TodoList />
         <CompletedTodo />
